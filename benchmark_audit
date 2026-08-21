@@ -1,0 +1,135 @@
+Benchmark Audit
+
+Client scenario
+
+Northstar Community Bank wants an LLM assistant to draft consumer-loan adverse-action letters from an approved structured record. The system must preserve the exact decision reasons, include all supplied notice components, use plain and empathetic language, and avoid protected-class bias or unsupported promises. The highest-impact failures are hallucinated or omitted reasons, incomplete notice content, differential treatment, and failure to escalate an incomplete record.
+
+Benchmark 1 — IFEval
+
+Benchmark name: Instruction-Following Evaluation (IFEval)
+Year: 2023
+Source: Zhou et al., Instruction-Following Evaluation for Large Language Models, arXiv:2311.07911; official implementation
+
+Why it seemed relevant: IFEval tests adherence to objectively verifiable instructions such as required keywords, length limits, and output formats. Loan letters also have hard constraints: include approved reasons, reproduce mandatory text, and omit unsupported claims. Its programmatic checks are useful for the deterministic portion of the bank's evaluation.
+
+Contamination risk:
+
+Low — Model likely not trained on this data
+
+Medium — Some overlap possible
+
+High — The benchmark, prompts, and code have been public since 2023, so later models or their developers may have encountered them. Training-data access is unavailable, so direct contamination cannot be proven model by model.
+
+Saturation risk:
+
+Low — Benchmark is challenging
+
+Medium — Strong recent models often perform well on simple verifiable constraints, but exact compliance remains sensitive to prompt composition and multiple simultaneous requirements.
+
+High — Many models achieve near-perfect scores
+
+Format:
+
+Multiple choice
+
+Free-form text with programmatic instruction checks
+
+Code generation
+
+Other: approximately 500 prompts spanning 25 verifiable instruction types
+
+Verdict:
+
+Use it as-is
+
+Adapt it — Reuse its rule-based philosophy for bank-specific checks: exact approved reason, mandatory sentences, prohibited phrases, word range, and JSON schema. Public IFEval scores will not be used as a deployment gate because generic format compliance does not establish legal or factual correctness.
+
+Reject it
+
+Benchmark 2 — LegalBench
+
+Benchmark name: LegalBench
+Year: 2023
+Source: Guha et al., LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models, arXiv:2308.11462; official repository
+
+Why it seemed relevant: LegalBench contains 162 tasks created with legal professionals and covers several forms of legal reasoning. It is directionally relevant because adverse-action communications require disciplined application of approved policy and notice rules, not merely fluent drafting. Selected tasks can expose brittle rule application and issue spotting.
+
+Contamination risk:
+
+Low — Model likely not trained on this data
+
+Medium — Some overlap possible
+
+High — The paper, task descriptions, and dataset are public. A model released after publication may have seen examples or derivative discussions, although exact training overlap is unknown.
+
+Saturation risk:
+
+Low — Benchmark is challenging
+
+Medium — Performance varies substantially by task and model; aggregate results can conceal weak performance on the narrow tasks that matter to a lender.
+
+High — Many models achieve near-perfect scores
+
+Format:
+
+Multiple choice / classification for many tasks
+
+Free-form text for some task formulations
+
+Code generation
+
+Other: 162 heterogeneous legal-reasoning tasks
+
+Verdict:
+
+Use it as-is
+
+Adapt it — Select only rule-application and issue-spotting patterns, then replace the facts and ground truth with bank-approved reason-code mappings and notice requirements. A compliance lawyer must validate the custom ground truth. A broad LegalBench score is not evidence that a model can draft compliant loan notices.
+
+Reject it
+
+Benchmark 3 — BBQ
+
+Benchmark name: Bias Benchmark for Question Answering (BBQ)
+Year: 2022 (preprint released 2021)
+Source: Parrish et al., BBQ: A Hand-Built Bias Benchmark for Question Answering, arXiv:2110.08193; official repository
+
+Why it seemed relevant: BBQ examines whether models rely on stereotypes about protected or socially salient groups when evidence is ambiguous and whether bias overrides an answer when evidence is sufficient. Credit communications require equivalent treatment when decision facts are equivalent. BBQ therefore motivates counterfactual-pair testing even though it is a question-answering dataset rather than a letter-writing benchmark.
+
+Contamination risk:
+
+Low — Model likely not trained on this data
+
+Medium — Some overlap possible
+
+High — The benchmark has been public since 2021/2022 and is widely discussed. Later models may have encountered original items, so memorized performance is a material risk.
+
+Saturation risk:
+
+Low — Social-bias behavior remains context-sensitive; a high average score would not establish safety for a new generative credit context.
+
+Medium — Some models perform well
+
+High — Many models achieve near-perfect scores
+
+Format:
+
+Multiple choice
+
+Free-form text
+
+Code generation
+
+Other: paired ambiguous and disambiguated contexts across nine social dimensions
+
+Verdict:
+
+Use it as-is
+
+Adapt it — Build paired fictional applications in which relevant financial facts are identical and only a protected-class signal or proxy changes. Compare reason selection, wording, helpfulness, and escalation behavior. Human fairness review remains necessary because lexical equality alone can miss subtle stereotyping or disparate impact.
+
+Reject it
+
+Audit conclusion
+
+No public benchmark is sufficient as a deployment decision. IFEval contributes reproducible constraint checks, LegalBench contributes rule-application patterns, and BBQ contributes counterfactual fairness design. The recommended evaluation is therefore a private, versioned bank dataset with policy-owner ground truth, rule checks for non-negotiable fields, an independently calibrated LLM judge for qualitative criteria, and blinded human review of critical and borderline cases.
