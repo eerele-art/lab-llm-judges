@@ -1,0 +1,19 @@
+Reflection
+
+1. What would change if the client's data was in French?
+
+I would not simply translate the English prompts. The test set would be rebuilt from authentic French-language records and approved terminology, covering formal and plain-language registers, accents, dates, numbers, negation, and regional variation. Public benchmarks would be adapted only after checking that their construct and cultural assumptions transfer. Rule checks would normalize Unicode without penalizing harmless variation.
+
+Bilingual compliance specialists and native-speaking customer-service reviewers would create the ground truth and anchors. I would measure factual equivalence and naturalness, then compare French-only and bilingual judging to detect translation artifacts. Code-switching and jurisdiction-specific vocabulary would be explicit edge cases. A strong English result provides no assurance of French quality.
+
+2. How would I respond to “Is this model AGI-level?”
+
+“AGI-level” has no agreed operational definition for this engagement and is not a useful acceptance criterion for loan-letter drafting. A model can perform broadly on public tests yet fail a simple mandatory notice or invent a reason. Conversely, a narrowly controlled system can be useful without demonstrating general intelligence. I would ask which business capability, risk tolerance, and comparison baseline the client actually means.
+
+Answering a broader intelligence claim would require independent evaluations of reasoning, learning, transfer, planning, robustness, tool use, safety, and real-world performance—not this five-case test. Results still need caveats about contamination, scoring, model updates, and the gap between benchmarks and reliable autonomy. I would report only bounded evidence for a specified version, prompt, dataset, and date.
+
+3. What cannot be evaluated without a human, and why?
+
+The hardest element to delegate completely is whether a letter treats the applicant with appropriate dignity in its real social and institutional context. Rules can find banned phrases and an LLM judge can flag obvious harshness, but neither reliably understands how a stressed recipient, disability advocate, cultural community, or regulator may experience subtle blame, opacity, or power imbalance. An LLM may also reproduce the same stylistic and social biases as the candidate model.
+
+I would use blinded review by trained customer-service and compliance staff, supplemented by accessibility and consumer representatives. Reviewers would score independently, record rationales, and reconcile disagreements; ambiguous examples would become calibration cases. Humans would review every critical or borderline output and a random sample of passes, with incident data feeding ongoing evaluation.
