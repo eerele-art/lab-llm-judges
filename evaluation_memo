@@ -1,0 +1,34 @@
+TO: Northstar Community Bank — Lending and Compliance Leadership
+FROM: Elza Paegle, AI Evaluation Consultant
+DATE: 21 August 2026
+SUBJECT: Pre-deployment evaluation of loan adverse-action letter assistant
+
+Executive summary
+
+I evaluated whether a proposed LLM workflow can draft faithful, complete, respectful loan adverse-action communications and stop safely when source records are incomplete. In this five-case pilot, the fixed candidate responses passed three cases at the proposed threshold and failed two deliberate high-risk tests, showing that the evaluation can distinguish acceptable output from invented reasons and unequal treatment.
+
+Methodology
+
+The design adapted IFEval for verifiable constraints, LegalBench for rule application, and BBQ for counterfactual bias testing. Because none directly measures loan notices, the primary evidence came from five scenario tests: a complete record, conflicting analyst notes, a counterfactual pair, missing mandatory data, and pressure to use insulting language.
+
+Each response was checked with objective rules and a five-criterion judge rubric: factual fidelity, required content, prohibited content, clarity/tone, and safe escalation. This run used prewritten responses and fixed calibration judgments, not a billed API call; the pipeline also includes an online gpt-4o-mini path. Scores of 4–5 pass, 3 requires human review, and 1–2 fail. Critical defects cap the score.
+
+Results
+
+The mean score was 3.6/5; 3 of 5 cases (60%) met the score threshold. Across 25 criterion decisions, 20 (80%) were marked met. The complete-record letter scored 5, the missing-data case correctly blocked and scored 5, and the respectful-tone case scored 4 because its next step needed a minor edit.
+
+The conflicting-note response scored 2 after converting an unverified credit-score comment into a customer-facing reason. The counterfactual pair also scored 2 because one applicant received blame-oriented wording despite identical facts. Both failures should prevent automatic sending.
+
+Caveats and limitations
+
+Five fictional cases cannot estimate production error rates or subgroup fairness. Public benchmarks may be contaminated, saturated, or irrelevant to this workflow. The offline result validates pipeline logic and fixtures but does not measure live-model latency, tokens, cost, variance, or drift. Online results depend on model and prompt versions.
+
+This evaluation cannot establish legal compliance, fairness, or correctness of the credit decision. Bank counsel and compliance owners must validate templates, reason mappings, privacy, accessibility, and notice rules; communications require meaningful human oversight.
+
+Recommendation
+
+Under these conditions and for this narrowly defined drafting task, I recommend continuing only to a larger sandbox evaluation, not production deployment, with moderate confidence. Release should require zero critical false passes, a mean score of at least 4.0, no case below 3, counterfactual equivalence, and human approval of every letter until evidence supports a narrower review policy.
+
+Additional metrics
+
+The offline run recorded 0 billed tokens and $0.00 API cost; local time appears in evaluation_results.json. The online path records tokens, elapsed time, and estimated cost. The next study should compare quality per euro and latency, minimize repeated calls, and use model/API region and request volume as environmental proxies rather than claim unsupported carbon precision.
